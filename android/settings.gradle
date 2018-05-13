@@ -1,0 +1,3 @@
+rootProject.name = 'aba_cards'
+
+include ':app'
