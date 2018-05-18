@@ -3,14 +3,13 @@ import {
   Text,
   View,
 } from 'react-native';
-import Draggable from './components/Draggable'
+import Foo from './components/Draggable'
 
 export default class App extends Component {
   render() {
     return (
       <View>
-        <Draggable />
-        <Draggable />
+        <Foo />
       </View>
     );
   }
