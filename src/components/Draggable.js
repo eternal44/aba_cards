@@ -1,107 +1,88 @@
-import React,{ Component } from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  PanResponder,
-  Animated,
-  Dimensions
-} from 'react-native';
 
-export default class Draggable extends Component{
-  constructor(props){
+import React, { Component } from "react";
+import { StyleSheet, View, Text, PanResponder, Animated,  } from "react-native";
+
+
+class Draggable extends Component {
+  constructor(props) {
     super(props);
 
     this.state = {
-      showDraggable   : true,
-      dropZoneValues  : null,
-      pan             : new Animated.ValueXY(),
-      currentPanValue : {x: 0, y: 0}
+      showDraggable: true,
+      dropAreaValues: null,
+      pan: new Animated.ValueXY(),
+      opacity: new Animated.Value(1)
     };
+  }
+
+  componentWillMount() {
+    this._val = { x:0, y:0 }
+    this.state.pan.addListener((value) => this._val = value);
 
     this.panResponder = PanResponder.create({
-      onStartShouldSetPanResponder    : () => true,
-      onPanResponderMove              : Animated.event([null,{
-        dx  : this.state.pan.x,
-        dy  : this.state.pan.y
-      }]),
-      onPanResponderRelease           : (e, gesture) => {
-        this.state.currentPanValue.x += this.state.pan.x._value;
-        this.state.currentPanValue.y += this.state.pan.y._value;
-
-        this.state.pan.setOffset({x: this.state.currentPanValue.x, y: this.state.currentPanValue.y});
-        this.state.pan.setValue({x: 0, y: 0});
-      }
-    });
+        onStartShouldSetPanResponder: (e, gesture) => true,
+        onPanResponderGrant: (e, gesture) => {
+          this.state.pan.setOffset({
+            x: this._val.x,
+            y:this._val.y
+          })
+          this.state.pan.setValue({ x:0, y:0})
+        },
+        onPanResponderMove: Animated.event([ 
+          null, { dx: this.state.pan.x, dy: this.state.pan.y }
+        ]),
+        onPanResponderRelease: (e, gesture) => {
+          if (this.isDropArea(gesture)) {
+            Animated.timing(this.state.opacity, {
+              toValue: 0,
+              duration: 1000
+            }).start(() =>
+              this.setState({
+                showDraggable: false
+              })
+            );
+          } 
+        }
+      });
   }
 
-  isDropZone(gesture){
-    var dz = this.state.dropZoneValues;
-    return gesture.moveY > dz.y && gesture.moveY < dz.y + dz.height;
+  isDropArea(gesture) {
+    return gesture.moveY < 200;
   }
 
-  setDropZoneValues(event){
-    this.setState({
-      dropZoneValues : event.nativeEvent.layout
-    });
-  }
-
-  render(){
+  render() {
     return (
-      <View style={styles.mainContainer}>
-        <View
-          onLayout={this.setDropZoneValues.bind(this)}
-          style={styles.dropZone}>
-          <Text style={styles.text}>Drop me here!</Text>
-        </View>
-
+      <View style={{ width: "20%", alignItems: "center" }}>
         {this.renderDraggable()}
       </View>
     );
   }
 
-  renderDraggable(){
-    if(this.state.showDraggable){
+  renderDraggable() {
+    const panStyle = {
+      transform: this.state.pan.getTranslateTransform()
+    }
+    if (this.state.showDraggable) {
       return (
-        <View style={styles.draggableContainer}>
+        <View style={{ position: "absolute" }}>
           <Animated.View
             {...this.panResponder.panHandlers}
-            style={[this.state.pan.getLayout(), styles.circle]}>
-            <Text style={styles.text}>Drag me!</Text>
-          </Animated.View>
+            style={[panStyle, styles.circle, {opacity:this.state.opacity}]}
+          />
         </View>
       );
     }
   }
 }
 
-let CIRCLE_RADIUS = 36;
-let Window = Dimensions.get('window');
-let styles = StyleSheet.create({
-  mainContainer: {
-    flex    : 1
-  },
-  dropZone    : {
-    height  : 100,
-    backgroundColor:'#2c3e50'
-  },
-  text        : {
-    marginTop   : 25,
-    marginLeft  : 5,
-    marginRight : 5,
-    textAlign   : 'center',
-    color       : '#fff'
-  },
-  draggableContainer: {
-    position    : 'absolute',
-    top         : Window.height/2 - CIRCLE_RADIUS,
-    left        : Window.width/2 - CIRCLE_RADIUS,
-  },
-  circle      : {
-    backgroundColor     : '#1abc9c',
-    width               : CIRCLE_RADIUS*2,
-    height              : CIRCLE_RADIUS*2,
-    borderRadius        : CIRCLE_RADIUS
+let CIRCLE_RADIUS = 30;
+const styles = StyleSheet.create({
+  circle: {
+    backgroundColor: "skyblue",
+    width: CIRCLE_RADIUS * 2,
+    height: CIRCLE_RADIUS * 2,
+    borderRadius: CIRCLE_RADIUS
   }
 });
 
+export default Draggable
