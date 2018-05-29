@@ -1,14 +1,11 @@
-import React, { Component } from "react";
-import { StyleSheet, View, Text, PanResponder, Animated,  } from "react-native";
+import React, { Component } from "react"
+import { StyleSheet, View, Text, PanResponder, Animated,  } from "react-native"
 import Draggable from './components/Draggable'
 
 export default class App extends Component {
   render() {
     return (
       <View style={styles.mainContainer}>
-        <View style={styles.dropZone}>
-          <Text style={styles.text}>Drop them here!</Text>
-        </View>
         <View style={styles.ballContainer} />
         <View style={styles.row}>
           <Draggable />
@@ -17,25 +14,28 @@ export default class App extends Component {
           <Draggable />
           <Draggable />
         </View>
+        <View style={styles.dropZone}>
+          <Text style={styles.text}>Drop here to remove!</Text>
+        </View>
       </View>
-    );
+    )
   }
 }
 
-let CIRCLE_RADIUS = 30;
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1
   },
   ballContainer: {
-    height:200
+    height: 0
   },
   row: {
+    height: 400,
     flexDirection: "row"
   },
   dropZone: {
-    height: 200,
-    backgroundColor: "#00334d"
+    backgroundColor: "#00334d",
+    marginTop: "auto"
   },
   text: {
     marginTop: 25,
@@ -46,4 +46,4 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: "bold"
   }
-});
+})
