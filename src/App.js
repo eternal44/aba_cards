@@ -1,19 +1,25 @@
 import React, { Component } from "react"
 import { StyleSheet, View, Text, PanResponder, Animated,  } from "react-native"
 import Draggable from './components/Draggable'
+import Draggables from './components/Draggables'
+
+const DRAGGABLES = [
+  '1',
+  '2',
+  '3',
+  '4',
+  '5',
+  '6'
+]
 
 export default class App extends Component {
   render() {
     return (
       <View style={styles.mainContainer}>
-        <View style={styles.ballContainer} />
-        <View style={styles.row}>
-          <Draggable />
-          <Draggable />
-          <Draggable />
-          <Draggable />
-          <Draggable />
-        </View>
+        <Draggables
+          ref={draggable => this._draggablesComponent = draggable }
+          draggables={DRAGGABLES}
+        />
         <View style={styles.dropZone}>
           <Text style={styles.text}>Drop here to remove!</Text>
         </View>
@@ -25,13 +31,6 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1
-  },
-  ballContainer: {
-    height: 0
-  },
-  row: {
-    height: 400,
-    flexDirection: "row"
   },
   dropZone: {
     backgroundColor: "#00334d",

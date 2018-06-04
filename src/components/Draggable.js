@@ -40,9 +40,6 @@ class Draggable extends Component {
             })
           )
         }
-      },
-      onPanResponderTerminate: (e, gesture) => {
-        // something
       }
     })
   }
@@ -65,7 +62,7 @@ class Draggable extends Component {
     }
     if (this.state.showDraggable) {
       return (
-        <View style={{ position: "absolute" }}>
+        <View>
           <Animated.View
             {...this.panResponder.panHandlers}
             style={[panStyle, styles.circle, {opacity:this.state.opacity}]}
