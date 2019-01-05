@@ -1236,6 +1236,7 @@
 				PRODUCT_NAME = abaCards;
 				PROVISIONING_PROFILE = "5d049b6e-a34e-4b3d-afc5-52fc40796173";
 				PROVISIONING_PROFILE_SPECIFIER = "match Development org.reactjs.native.example.abaCards";
+				TARGETED_DEVICE_FAMILY = 2;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1259,6 +1260,7 @@
 				PRODUCT_NAME = abaCards;
 				PROVISIONING_PROFILE = "f5525dfe-a0e8-40fa-89a2-5914d98bab5a";
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore org.reactjs.native.example.abaCards";
+				TARGETED_DEVICE_FAMILY = 2;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
