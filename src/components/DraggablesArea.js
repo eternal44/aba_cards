@@ -46,8 +46,8 @@ class DraggablesArea extends PureComponent {
   }
 }
 
-const height = Dimensions.get('window').height - 50
-const width = Dimensions.get('window').width - 50
+const height = Dimensions.get('window').height - 100
+const width = Dimensions.get('window').width - 100
 const deleteZoneBorder = { height, width }
 
 const mapDispatchToProps = (dispatch) => {

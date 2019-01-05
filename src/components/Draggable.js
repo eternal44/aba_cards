@@ -85,9 +85,9 @@ class Draggable extends Component {
   }
 
   isDropArea ({moveY, moveX}) {
-    const {height} = this.props.deleteZoneBorder
+    const {height, width} = this.props.deleteZoneBorder
 
-    return moveY > height && moveX < 50
+    return moveY > height && moveX < width
   }
 
   render () {
