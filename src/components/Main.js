@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import {
   StyleSheet,
   View,
@@ -7,55 +8,74 @@ import {
   Image
 } from 'react-native'
 import SideMenu from 'react-native-side-menu'
-import { Provider } from 'react-redux'
 
 import Draggables from './Draggables'
-import Menu from './Menu'
-import store from '../store'
+import ImageMenu from './ImageMenu'
+import CategoryMenu from './CategoryMenu'
 
-export default class Main extends Component {
+class Main extends Component {
   constructor (props) {
     super(props)
 
     this.toggle = this.toggle.bind(this)
 
     this.state = {
-      isOpen: false,
-      selectedItem: 'About'
+      outerMenuIsOpen: false,
     }
   }
 
   toggle () {
     this.setState({
-      isOpen: !this.state.isOpen
+      outerMenuIsOpen: !this.state.outerMenuIsOpen
     })
   }
 
-  updateMenuState (isOpen) {
-    this.setState({ isOpen })
+  updateOuterMenuState (outerMenuIsOpen) {
+    this.setState({ outerMenuIsOpen })
   }
 
   render () {
-    const menu = <Menu />
+    const imageMenu = <ImageMenu />
+    const categoryMenu = <CategoryMenu />
 
-    return (
-      <Provider store={store}>
-        <SideMenu
-          menu={menu}
-          isOpen={this.state.isOpen}
-          onChange={isOpen => this.updateMenuState(isOpen)}
-          openMenuOffset={175}
-        >
-          <View style={styles.container}>
-            <Draggables
-              ref={draggable => (this._draggablesComponent = draggable)}
-            />
-            <View style={styles.dropZone}>
-              <Text >Remove</Text>
-              <Image
-                source={trashBinImage}
-                style={{ width: 32, height: 32 }}
-              />
+      return (
+        <View style={ styles.container }>
+          <SideMenu
+            menu={categoryMenu}
+            isOpen={this.state.outerMenuIsOpen}
+            onChange={isOpen => this.updateOuterMenuState(isOpen)}
+            openMenuOffset={175}
+          >
+            <View style= {styles.container}>
+              <SideMenu
+                menu={imageMenu}
+                isOpen={this.props.openImageMenu}
+                onChange={isOpen => false}
+                openMenuOffset={175}
+              >
+                <View style={styles.container}>
+                  <Draggables
+                    ref={draggable => (this._draggablesComponent = draggable)}
+                  />
+                  <View style={styles.dropZone}>
+                    <Text >Remove</Text>
+                    <Image
+                      source={trashBinImage}
+                      style={{ width: 32, height: 32 }}
+                    />
+                  </View>
+                </View>
+              <TouchableOpacity
+                onPress={this.toggle}
+                style={styles.button}
+              >
+                <Image
+                  source={menuImage}
+                  style={{ width: 32, height: 32 }}
+                />
+              </TouchableOpacity>
+
+              </SideMenu>
             </View>
             <Text
               onPress={this.toggle}
@@ -64,20 +84,9 @@ export default class Main extends Component {
             >
               toggleMenu
             </Text>
-
-          </View>
-          <TouchableOpacity
-            onPress={this.toggle}
-            style={styles.button}
-          >
-            <Image
-              source={menuImage}
-              style={{ width: 32, height: 32 }}
-            />
-          </TouchableOpacity>
-        </SideMenu>
-      </Provider>
-    )
+          </SideMenu>
+        </View>
+      )
   }
 }
 
@@ -113,3 +122,11 @@ const styles = StyleSheet.create({
 const menuImage = require('../assets/menu.png')
 const trashBinImage = require('../assets/trash-bin.png')
 
+const mapStateToProps = state => {
+  menuState = state.menuState
+
+  const openImageMenu = menuState.length == 0 ? false : true
+  return { openImageMenu }
+}
+
+export default connect(mapStateToProps)(Main)

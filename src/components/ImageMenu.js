@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import {
   StyleSheet,
   ScrollView,
@@ -7,17 +6,17 @@ import {
   Image,
   Text
 } from 'react-native'
+import { connect } from 'react-redux'
+import SelectableImage from './SelectableImage'
 
-import Selectable from './Selectable'
-
-class Menu extends Component {
+class ImageMenu extends Component {
 
   generateID () {
     return Math.random().toString(36).slice(2)
   }
 
   render () {
-    const selectables = this.props.selectables
+    const selectableImages = this.props.selectableImages
 
     return (
       <ScrollView scrollsToTop={false} style={styles.menu}>
@@ -29,10 +28,10 @@ class Menu extends Component {
           <Text style={styles.name}>Eunice Shin</Text>
         </View>
 
-        {selectables.map((selectable, index) =>
-          <Selectable
-            selectable={selectable}
-            key={index}
+        {selectableImages.map((image) =>
+          <SelectableImage
+            image={image}
+            key={this.generatID}
           />
         )}
       </ScrollView>
@@ -65,7 +64,10 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => {
-  return { selectables: state.selectables }
+  menuState = state.menuState
+
+  const selectableImages = menuState.length == 0 ? [] : state.selectableImages[menuState]
+  return { selectableImages: selectableImages }
 }
 
-export default connect(mapStateToProps)(Menu)
+export default connect(mapStateToProps)(ImageMenu)

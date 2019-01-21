@@ -9,9 +9,9 @@ import {
 
 import { addDraggable } from '../actions'
 
-class Selectable extends Component {
+class SelectableImage extends Component {
   render () {
-    const draggableToAdd = this.props.selectable
+    const draggableToAdd = this.props.image
 
     return (
       <View>
@@ -48,4 +48,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default connect(null, mapDispatchToProps)(Selectable)
+export default connect(null, mapDispatchToProps)(SelectableImage)

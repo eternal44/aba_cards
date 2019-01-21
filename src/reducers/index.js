@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux'
 import DraggablesReducer from './DraggablesReducer'
-import SelectablesReducer from './SelectablesReducer'
+import SelectableImagesReducer from './SelectableImagesReducer'
+import MenuReducer from './MenuReducer'
 
 export default combineReducers({
   draggables: DraggablesReducer,
-  selectables: SelectablesReducer
+  selectableImages: SelectableImagesReducer,
+  menuState: MenuReducer
 })
