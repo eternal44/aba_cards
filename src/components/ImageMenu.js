@@ -20,14 +20,6 @@ class ImageMenu extends Component {
 
     return (
       <ScrollView scrollsToTop={false} style={styles.menu}>
-        <View style={styles.avatarContainer}>
-          <Image
-            style={styles.avatar}
-            source={{ uri }}
-          />
-          <Text style={styles.name}>Eunice Shin</Text>
-        </View>
-
         {selectableImages.map((image) =>
           <SelectableImage
             image={image}
@@ -39,22 +31,11 @@ class ImageMenu extends Component {
   }
 }
 
-const uri = 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png'
-
 const styles = StyleSheet.create({
   menu: {
     backgroundColor: 'gray',
-    padding: 20
-  },
-  avatarContainer: {
-    marginBottom: 20,
-    marginTop: 20
-  },
-  avatar: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    flex: 1
+    padding: 20,
+    paddingTop: 80
   },
   name: {
     position: 'absolute',

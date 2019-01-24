@@ -20,18 +20,18 @@ class Main extends Component {
     this.toggle = this.toggle.bind(this)
 
     this.state = {
-      outerMenuIsOpen: false,
+      categoryMenuIsOpen: false,
     }
   }
 
   toggle () {
     this.setState({
-      outerMenuIsOpen: !this.state.outerMenuIsOpen
+      categoryMenuIsOpen: !this.state.categoryMenuIsOpen
     })
   }
 
-  updateOuterMenuState (outerMenuIsOpen) {
-    this.setState({ outerMenuIsOpen })
+  updateCategoryMenuState (categoryMenuIsOpen) {
+    this.setState({ categoryMenuIsOpen })
   }
 
   render () {
@@ -42,8 +42,8 @@ class Main extends Component {
         <View style={ styles.container }>
           <SideMenu
             menu={categoryMenu}
-            isOpen={this.state.outerMenuIsOpen}
-            onChange={isOpen => this.updateOuterMenuState(isOpen)}
+            isOpen={this.state.categoryMenuIsOpen}
+            onChange={isOpen => this.updateCategoryMenuState(isOpen)}
             openMenuOffset={175}
           >
             <View style= {styles.container}>
@@ -77,6 +77,16 @@ class Main extends Component {
 
               </SideMenu>
             </View>
+            <TouchableOpacity
+              onPress={this.toggle}
+              style={styles.button}
+            >
+              <Image
+                source={menuImage}
+                style={{ width: 32, height: 32 }}
+              />
+            </TouchableOpacity>
+
             <Text
               onPress={this.toggle}
               testID='toggleMenu'
@@ -126,7 +136,7 @@ const mapStateToProps = state => {
   menuState = state.menuState
 
   const openImageMenu = menuState.length == 0 ? false : true
-  return { openImageMenu }
+  return { openImageMenu: openImageMenu }
 }
 
 export default connect(mapStateToProps)(Main)
