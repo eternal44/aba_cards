@@ -13,6 +13,8 @@ import Draggables from './Draggables'
 import ImageMenu from './ImageMenu'
 import CategoryMenu from './CategoryMenu'
 
+// import { fetchImages } from '../actions'
+
 class Main extends Component {
   constructor (props) {
     super(props)
@@ -32,6 +34,10 @@ class Main extends Component {
 
   updateCategoryMenuState (categoryMenuIsOpen) {
     this.setState({ categoryMenuIsOpen })
+  }
+
+  componentWillMount () {
+    fetchImages()
   }
 
   render () {
@@ -136,7 +142,7 @@ const mapStateToProps = state => {
   menuState = state.menuState
 
   const openImageMenu = menuState.length == 0 ? false : true
-  return { openImageMenu: openImageMenu }
+  return { openImageMenu }
 }
 
 export default connect(mapStateToProps)(Main)

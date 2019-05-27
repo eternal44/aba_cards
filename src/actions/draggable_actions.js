@@ -1,3 +1,4 @@
+// TODO: add type strings later
 import {
   ADD_DRAGGABLE,
   REMOVE_DRAGGABLE,
